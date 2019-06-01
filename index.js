@@ -440,12 +440,15 @@ var ModalBox = createReactClass({
   renderContent() {
     var size    = {height: this.state.containerHeight, width: this.state.containerWidth};
     var offsetX = (this.state.containerWidth - this.state.width) / 2;
-
+    // XXX: Allow pointerEvents to propagate behind the modal if there is no backdrop-dependent configuration.
+    const pointerEvents = (!this.props.backdrop && !this.props.backdropPressToClose && !this.props.swipeToClose) ? 'box-none' : 'auto';
     return (
       <Animated.View
+        pointerEvents={pointerEvents}
         onLayout={this.onViewLayout}
         style={[styles.wrapper, size, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
-        {...this.state.pan.panHandlers}>
+        {...this.state.pan.panHandlers}
+      >
         {this.props.backdropPressToClose && <TouchableWithoutFeedback onPress={this.close}><View style={[styles.absolute]} /></TouchableWithoutFeedback>}
         {this.props.children}
       </Animated.View>
@@ -462,8 +465,8 @@ var ModalBox = createReactClass({
     if (!visible) return <View/>
 
     var content = (
-      <View importantForAccessibility="yes" accessibilityViewIsModal={true} style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'}>
-        <View style={{ flex: 1 }} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
+      <View importantForAccessibility="yes" accessibilityViewIsModal={true} style={[styles.transparent, styles.absolute]} pointerEvents="box-none">
+        <View style={{ flex: 1 }} pointerEvents="box-none" onLayout={this.onContainerLayout}>
           {visible && this.renderBackdrop()}
           {visible && this.renderContent()}
         </View>
