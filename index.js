@@ -7,7 +7,7 @@ var {
   StyleSheet,
   PanResponder,
   Animated,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
   Dimensions,
   Easing,
   BackHandler,
@@ -425,12 +425,12 @@ var ModalBox = createReactClass({
 
     if (this.props.backdrop) {
       backdrop = (
-        <TouchableWithoutFeedback onPress={this.props.backdropPressToClose ? this.close : null}>
+        <TouchableOpacity onPress={this.props.backdropPressToClose ? this.close : null}>
           <Animated.View importantForAccessibility="no" style={[styles.absolute, {opacity: this.state.backdropOpacity}]}>
             <View style={[styles.absolute, {backgroundColor:this.props.backdropColor, opacity: this.props.backdropOpacity}]}/>
             {this.props.backdropContent || []}
           </Animated.View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       );
     }
 
@@ -449,7 +449,7 @@ var ModalBox = createReactClass({
         style={[styles.wrapper, size, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
         {...this.state.pan.panHandlers}
       >
-        {this.props.backdropPressToClose && <TouchableWithoutFeedback onPress={this.close}><View style={[styles.absolute]} /></TouchableWithoutFeedback>}
+        {this.props.backdropPressToClose && <TouchableOpacity onPress={this.close}><View style={[styles.absolute]} /></TouchableOpacity>}
         {this.props.children}
       </Animated.View>
     )
